@@ -1,5 +1,5 @@
 network = {
-	url: "/api/",
+	url: "/api",
 	_send : function(parameters){
 		this.xhr = new Xhr(this.url, {
 			onSuccess: function(request){
@@ -13,18 +13,16 @@ network = {
 		this.receiveCallback = callback;
 	},
 	send: function(actionName, args){
-		if ((typeof args == "undefined") || (args == "")) args = null;
-		this._send({
-			name: actionName,
-			params: args,
-		})
+		if ((typeof args == "undefined") || (args == "")) args = "null";
+		this._send(
+			'{"AppID": "1", "Action":{"name":"%action_name%","params":"%parameters%"}}'.replace(/%action_name%/, actionName).replace(/%parameters%/, args)
+		)
 	}
 }
 
 //examples of usage:
-	//network.url = ""
-	//network.onRecieve(function(response){
-	//	//console.log("callback response\n\t" + response);
-	//		console.log(response);
-	//});
-	//network.send('init', 1)
+//  network.url = ""
+//	network.onRecieve(function(response){
+//			console.log(response);
+//	});
+//	network.send('init', 1)
